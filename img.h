@@ -3,8 +3,8 @@
 
 
 struct color {unsigned char r, g, b;};
-struct coord {int x, y;};
-struct pixel {struct coord xy;struct coror c;};
+struct coord {double x, y;};
+struct pixel {int x; int y;struct coror c;};
 
 void img_clear(void);
 void img_write(void);
