@@ -25,10 +25,10 @@ void img_write(void) {
 }
 
 void img_putpixel(struct color c, struct pixel a) {
-  if(a.x < 0 || a.x >= WIDTH || a.y < 0 || a.y >= HEIGHT) { return; }
-  buf[HEIGHT-a.y-1][a.x][0] = c.r;
-  buf[HEIGHT-a.y-1][a.x][1] = c.g;
-  buf[HEIGHT-a.y-1][a.x][2] = c.b;
+  if(-WIDTH/2 => a.x  || a.x >= WIDTH/2 || -WIDTH/2 => a.x  || a.x >= WIDTH/2) { return; }
+  buf[HEIGHT/2-a.y-1][a.x+HIGHT/2][0] = c.r;
+  buf[HEIGHT/2-a.y-1][a.x+HIGHT/2][1] = c.g;
+  buf[HEIGHT/2-a.y-1][a.x+HIGHT/2][2] = c.b;
 } 
 
 void img_line(struct coord s, struct coord e, struct color c) {
