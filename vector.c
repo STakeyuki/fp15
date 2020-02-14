@@ -2,7 +2,16 @@
 #include "vector.h"
 #include "math.h"
 
+struct vector f(int x, int y){
+    struct vector r = {x, y};
+    return r;
+}
 struct color r2color(double r){
+    
+}
+
+void create_vectors(unsigned int digit){
+    for(int x = 0;
     
 }
 
