@@ -31,6 +31,22 @@ void img_putpixel(struct color c, struct pixel a) {
   buf[HEIGHT-a.y-1][a.x][2] = c.b;
 } 
 
+void img_line(struct coord s, struct coord e, struct color c) {
+	double deltax = e.x - s.x;
+	double deltay = e.y - s.y;
+	double deltaerr = abs(deltay/deltax);
+	double error = 0.0;
+	for(struct pixel point = {(int)round(s.x), (int)round(s.y)}; point.x <= e.x; point.x ++) {
+		img_putpixel(c, point);
+		error = error + deltaerr;
+		if(error >= 0.5) {
+			point.y += sign(deltay) * 1;
+			error -= 1.0;
+		}	
+	}
+	  
+}
+
 void img_fillcircle(struct color c, double x, double y, double r) {
   int imin = (int)(x - r - 1), imax = (int)(x + r + 1);
   int jmin = (int)(y - r - 1), jmax = (int)(y + r + 1);
