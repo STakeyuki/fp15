@@ -2,17 +2,34 @@
 #include "vector.h"
 #include "math.h"
 
+double max_norm;
+
 struct vector f(int x, int y){
     struct vector r = {x, y};
     return r;
 }
 struct color r2color(double r){
-    
+    int red, green;
+    struct color c;
+    if(r / max_norm < 0.5){
+        c = {128,127 + 127 * max_norm ,0};
+        return c;
+    }
+    if(r / max_norm >= 0.5){
+        c = {127 + 127 * max_norm,128 ,0};
+        return c;
+    }
 }
 
 void create_vectors(unsigned int digit){
-    for(int x = 0;
-    
+    int count = 0;
+    for(int y = -HIGHT/2 + 1;y <= HEIGHT/2;y += digit, count++){
+        for(int x = -HIGHT/2 + 1;x <= HEIGHT/2;x += digit){
+            vectors[count] = f(x, y);
+            double r = sqrt(pow(vectors[count].x, 2) + pow(vectors[count].y, 2)); 
+            if(max_norm < r) max_norn = r;
+        }
+    }
 }
 
 void showvector(struct vector v, struct coord xy){

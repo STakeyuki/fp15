@@ -1,6 +1,8 @@
 #define VECTORSIZE 10
 #define VECTORNUMBER 200
 
+double max_norm;
+
 struct vector{double x, y;}
 
 struct vector vectors[VECTORNUMBER];
