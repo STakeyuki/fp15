@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "img.h"
 
 static unsigned char buf[HEIGHT][WIDTH][3];
@@ -25,26 +26,47 @@ void img_write(void) {
 }
 
 void img_putpixel(struct color c, struct pixel a) {
-  if(-WIDTH/2 => a.x  || a.x >= WIDTH/2 || -WIDTH/2 => a.x  || a.x >= WIDTH/2) { return; }
-  buf[HEIGHT/2-a.y-1][a.x+HIGHT/2][0] = c.r;
-  buf[HEIGHT/2-a.y-1][a.x+HIGHT/2][1] = c.g;
-  buf[HEIGHT/2-a.y-1][a.x+HIGHT/2][2] = c.b;
+  if(-WIDTH/2 > a.x  || a.x >= WIDTH/2 || -HEIGHT/2 >= a.y  || a.y >= HEIGHT/2) { return; }
+  buf[HEIGHT/2-a.y-1][a.x+WIDTH/2][0] = c.r;
+  buf[HEIGHT/2-a.y-1][a.x+WIDTH/2][1] = c.g;
+  buf[HEIGHT/2-a.y-1][a.x+WIDTH/2][2] = c.b;
 } 
+int sign(double n) {
+	return (n >= 0)? 1 : -1;
+}
+double absd(double n) {
+	return (n >= 0)? n : -n;
+}
 
 void img_line(struct coord s, struct coord e, struct color c) {
-	double deltax = e.x - s.x;
-	double deltay = e.y - s.y;
-	double deltaerr = abs(deltay/deltax);
-	double error = 0.0;
-	for(struct pixel point = {(int)round(s.x), (int)round(s.y)}; point.x <= e.x; point.x ++) {
-		img_putpixel(c, point);
-		error = error + deltaerr;
-		if(error >= 0.5) {
-			point.y += sign(deltay) * 1;
-			error -= 1.0;
-		}	
+	double dx = abs(e.x - s.x);
+	int sx = (s.x < e.x) ? 1 : -1;
+	double dy = -absd(e.y - s.y);
+	int sy = (s.y < e.y) ? 1 : -1;
+	double err = dx + dy;
+	struct pixel spoint = {(int)round(s.x), (int)round(s.y)};
+	struct pixel epoint = {(int)round(e.x), (int)round(e.y)};
+	while(1) {
+		img_putpixel(c, spoint); spoint.x++; img_putpixel(c, spoint); spoint.x++; img_putpixel(c, spoint); spoint.x -= 2;
+		if(spoint.x == epoint.x && spoint.y == epoint.y) break;
+		double e2 = 2*err;
+		if (e2 >= dy) {
+			err += dy;
+			spoint.x += sx;
+		}
+		if (e2 <= dx) {
+			err += dx;
+			spoint.y += sy;
+		}
 	}
-	  
+}
+
+void img_triangle(struct coord s, struct coord e, double hb, struct color c) {
+	int i;
+	for(i = 0; i <= hb; i++) {
+		s.x += i; s.y += i; e.x += i; e.y += i; img_line(s,e,c);
+		s.x -= 2*i; s.y -= 2*i; e.x -= 2*i; e.y -= 2*i; img_line(s,e,c);
+	}
 }
 
 void img_fillcircle(struct color c, double x, double y, double r) {
