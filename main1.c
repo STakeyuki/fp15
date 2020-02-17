@@ -2,7 +2,6 @@
 #include "img.h"
 #include "vector.h"
 
-extern struct vector vectors[VECTORNUMBER];
 
 int main(){
     img_clear();
