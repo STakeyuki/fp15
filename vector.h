@@ -3,7 +3,7 @@
 
 #include "img.h"
 #define VECTORSIZE 200
-#define VECTORNUMBER 200
+#define VECTORNUMBER HEIGHT * WIDTH
 
 double max_norm;
 
