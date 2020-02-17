@@ -8,6 +8,14 @@ static unsigned char buf[HEIGHT][WIDTH][3];
 static int filecnt = 0;
 static char fname[100];
 
+double max (double a, double b) {
+	return (a>b) ? a : b;
+}
+
+double min (double a, double b) {
+	return (a<b) ? a : b;
+}
+
 void img_clear(void) {
   int i, j;
   for(j = 0; j < HEIGHT; ++j) {

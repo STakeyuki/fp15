@@ -1,5 +1,5 @@
-#include "img.h"
 #include "vector.h"
+#include "img.h"
 #include <math.h>
 
 double max_norm;
