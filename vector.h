@@ -9,6 +9,8 @@ double max_norm;
 
 struct vector{double x, y;};
 
+struct vector vectors[VECTORNUMBER] = {{0,0}};
+
 
 struct vector f(int x, int y);
 

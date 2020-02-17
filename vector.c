@@ -3,7 +3,6 @@
 #include <math.h>
 
 double max_norm = 400;
-struct vector vectors[VECTORNUMBER] = {{0,0}};
 
 struct vector f(int x, int y){
     struct vector r = {x, y};
