@@ -61,13 +61,34 @@ void img_line(struct coord s, struct coord e, struct color c) {
 	}
 }
 
-void img_triangle(struct coord s, struct coord e, double hb, struct color c) {
-	int i;
-	for(i = 0; i <= hb; i++) {
-		s.x += i; s.y += i; e.x += i; e.y += i; img_line(s,e,c);
-		s.x -= 2*i; s.y -= 2*i; e.x -= 2*i; e.y -= 2*i; img_line(s,e,c);
+void img_triangle(struct coord v1, struct coord v2, struct coord v3, struct color c) {
+	struct coord vs1 = {v2.x - v1.x, v2.y - v1.y};
+	struct coord vs2 = {v3.x - v1.x, v3.y - v1.y};
+	int x,y;
+	int maxX = max(v1.x, max(v2.x, v3.x));
+	int minX = min(v1.x, min(v2.x, v3.x));
+	int maxY = max(v1.y, max(v2.y, v3.y));
+	int minY = min(v1.y, min(v2.y, v3.y));
+	struct pixel p = {minX, minY};
+	for (; p.x <= maxX; p.x++)
+	{
+	  for (; p.y <= maxY; p.y++)
+	  {
+	   
+	    struct vector q = {p.x - v1.x, y - v1.y};
+
+	    double s = (double)crossProduct(q, vs2) / crossProduct(vs1, vs2);
+	    double t = (double)crossProduct(vs1, q) / crossProduct(vs1, vs2);
+
+	    if ( (s >= 0) && (t >= 0) && (s + t <= 1))
+	    { /* inside triangle */
+	      img_putpixel(c, p);
+	    }
+	  }
 	}
 }
+
+
 
 void img_fillcircle(struct color c, double x, double y, double r) {
   int imin = (int)(x - r - 1), imax = (int)(x + r + 1);

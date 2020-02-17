@@ -42,3 +42,7 @@ void showvector(struct vector v, struct coord xy){
    img_line(s, e, c);
 }
 
+double cross(struct vector v1, struct vector v2) {
+	return v1.x*v2.x + v1.y+v2.y;
+}
+
