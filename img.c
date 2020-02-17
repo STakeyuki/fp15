@@ -101,17 +101,33 @@ void img_vector(struct vector v, struct coord xy){
    double r = sqrt(pow(v.x, 2) + pow(v.y, 2)); 
    if (r < 0.001) {return;}
    struct color c = r2color(r); //struct color r2color(double r) 
-   struct coord s  = {xy.x , xy.y};
    struct coord e  = {xy.x + VECTORSIZE * v.x / r, xy.y + VECTORSIZE * v.y /r};
-   img_line(s, e, c);
+   img_line(xy, e, c);
+   struct coord b = { e.x - v.x*VECTORSIZE/(10*r), e.y - v.y*VECTORSIZE/(10*r) };
+   struct coord a = { b.x - v.y*VECTORSIZE/(10*r), b.y + v.x*VECTORSIZE/(10*r) };
+   struct coord d = { b.x + v.y*VECTORSIZE/(10*r), b.y - v.x*VECTORSIZE/(10*r) };
+   img_triangle(e, a, d, c);
 }
 
 void img_plane() {
 	struct coord x1 = {-WIDTH/2,0}, x2 = {WIDTH/2,0};
 	struct coord y1 = {0,-HEIGHT/2}, y2 = {0,HEIGHT/2};
 	struct color c = {0,0,255};	
+	int i;
+	struct color c2 = {0,102,102};	
 	img_line(x1,x2,c);
 	img_line(y1,y2,c);
+	for(i = -HEIGHT/2; i <= HEIGHT/2; i+=50) {
+		if(i==0) continue;		
+		x1.y = x2.y = i;
+		img_line(x1,x2,c2);
+	}
+	for(i = -WIDTH/2; i <= WIDTH/2; i+=50) {
+		if(i==0) continue;		
+		y1.x = y2.x = i;
+		img_line(y1,y2,c2);
+	}
+	
 }
 
 void img_circle(struct color c, double x, double y, double r) {
