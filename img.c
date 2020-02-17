@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "vector.h"
 #include "img.h"
 
 static unsigned char buf[HEIGHT][WIDTH][3];
@@ -62,8 +63,8 @@ void img_line(struct coord s, struct coord e, struct color c) {
 }
 
 void img_triangle(struct coord v1, struct coord v2, struct coord v3, struct color c) {
-	struct coord vs1 = {v2.x - v1.x, v2.y - v1.y};
-	struct coord vs2 = {v3.x - v1.x, v3.y - v1.y};
+	struct vector vs1 = {v2.x - v1.x, v2.y - v1.y};
+	struct vector vs2 = {v3.x - v1.x, v3.y - v1.y};
 	int x,y;
 	int maxX = max(v1.x, max(v2.x, v3.x));
 	int minX = min(v1.x, min(v2.x, v3.x));
@@ -75,10 +76,10 @@ void img_triangle(struct coord v1, struct coord v2, struct coord v3, struct colo
 	  for (; p.y <= maxY; p.y++)
 	  {
 	   
-	    struct vector q = {p.x - v1.x, y - v1.y};
+	    struct vector q = {p.x - v1.x, p.y - v1.y};
 
-	    double s = (double)crossProduct(q, vs2) / crossProduct(vs1, vs2);
-	    double t = (double)crossProduct(vs1, q) / crossProduct(vs1, vs2);
+	    double s = (double)cross(q, vs2) / cross(vs1, vs2);
+	    double t = (double)cross(vs1, q) / cross(vs1, vs2);
 
 	    if ( (s >= 0) && (t >= 0) && (s + t <= 1))
 	    { /* inside triangle */

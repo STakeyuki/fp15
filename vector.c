@@ -11,24 +11,23 @@ struct vector f(int x, int y){
 
 struct color r2color(double r){
     int red, green;
-    struct color c;
     if(r / max_norm < 0.5){
-        c = {128,127 + 127 * max_norm ,0};
+        struct color c = {128,127 + 127 * max_norm ,0};
         return c;
     }
     if(r / max_norm >= 0.5){
-        c = {127 + 127 * max_norm,128 ,0};
+        struct color c = {127 + 127 * max_norm,128 ,0};
         return c;
     }
 }
 
 void create_vectors(unsigned int digit){
     int count = 0;
-    for(int y = -HIGHT/2 + 1;y <= HEIGHT/2;y += digit, count++){
-        for(int x = -HIGHT/2 + 1;x <= HEIGHT/2;x += digit){
+    for(int y = -HEIGHT/2 + 1;y <= HEIGHT/2;y += digit, count++){
+        for(int x = -WIDTH/2 + 1;x <= WIDTH/2;x += digit){
             vectors[count] = f(x, y);
             double r = sqrt(pow(vectors[count].x, 2) + pow(vectors[count].y, 2)); 
-            if(max_norm < r) max_norn = r;
+            if(max_norm < r) max_norm = r;
         }
     }
 }
