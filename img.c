@@ -20,7 +20,7 @@ void img_clear(void) {
   int i, j;
   for(j = 0; j < HEIGHT; ++j) {
     for(i = 0; i < WIDTH; ++i) {
-      buf[j][i][0] = buf[j][i][1] = buf[j][i][2] = 255;
+      buf[j][i][0] = buf[j][i][1] = buf[j][i][2] = 0;
     }
   }
 }
@@ -56,7 +56,7 @@ void img_line(struct coord s, struct coord e, struct color c) {
 	struct pixel spoint = {(int)round(s.x), (int)round(s.y)};
 	struct pixel epoint = {(int)round(e.x), (int)round(e.y)};
 	while(1) {
-		img_putpixel(c, spoint); spoint.x++; img_putpixel(c, spoint); spoint.x++; img_putpixel(c, spoint); spoint.x -= 2;
+		img_putpixel(c, spoint); 
 		if(spoint.x == epoint.x && spoint.y == epoint.y) break;
 		double e2 = 2*err;
 		if (e2 >= dy) {
@@ -101,9 +101,17 @@ void img_vector(struct vector v, struct coord xy){
    double r = sqrt(pow(v.x, 2) + pow(v.y, 2)); 
    if (r < 0.001) {return;}
    struct color c = r2color(r); //struct color r2color(double r) 
-   struct coord s  = {xy.x + VECTORSIZE * v.x / (r * 2), xy.y + VECTORSIZE * v.y /(r * 2) };
-   struct coord e  = {xy.x - VECTORSIZE * v.x / (r * 2), xy.y - VECTORSIZE * v.y / (r * 2)};//cast??
+   struct coord s  = {xy.x , xy.y};
+   struct coord e  = {xy.x + VECTORSIZE * v.x / r, xy.y + VECTORSIZE * v.y /r};
    img_line(s, e, c);
+}
+
+void img_plane() {
+	struct coord x1 = {-WIDTH/2,0}, x2 = {WIDTH/2,0};
+	struct coord y1 = {0,-HEIGHT/2}, y2 = {0,HEIGHT/2};
+	struct color c = {0,0,255};	
+	img_line(x1,x2,c);
+	img_line(y1,y2,c);
 }
 
 void img_circle(struct color c, double x, double y, double r) {

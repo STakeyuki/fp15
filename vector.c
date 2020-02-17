@@ -2,7 +2,7 @@
 #include "img.h"
 #include <math.h>
 
-double max_norm;
+double max_norm = 400;
 
 struct vector f(int x, int y){
     struct vector r = {x, y};
