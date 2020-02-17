@@ -3,7 +3,7 @@
 #include <math.h>
 
 double max_norm = 400;
-struct vector vectors[VECTORNUMBER] = {{0,0}};
+struct vector vectors[VECTORNUMBER];
 
 struct vector f(int x, int y){
     struct vector r = {x, y};
@@ -27,9 +27,7 @@ void create_vectors(unsigned int digit){
     for(int y = -HEIGHT/2 + 1;y <= HEIGHT/2;y += digit){
         for(int x = -WIDTH/2 + 1;x <= WIDTH/2;x += digit, count++){
             if(count >= VECTORNUMBER){return;}
-            struct vector v = f(x, y);
-            vectors[count].x =  v.x;
-            vectors[count].y =  v.y;
+            vectors[count].x =   f(x, y);
             double r = sqrt(pow(vectors[count].x, 2) + pow(vectors[count].y, 2)); 
             if(max_norm < r) max_norm = r;
         }

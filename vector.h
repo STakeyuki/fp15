@@ -2,14 +2,13 @@
 #define VECTOR
 
 #include "img.h"
-#define VECTORSIZE 50
-#define VECTORNUMBER 200
+#define VECTORSIZE 200
+#define VECTORNUMBER HEIGHT * WIDTH
 
 double max_norm;
 
 struct vector{double x, y;};
 
-struct vector vectors[VECTORNUMBER];
 
 struct vector f(int x, int y);
 
