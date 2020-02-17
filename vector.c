@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "vector.h"
 #include "img.h"
 #include <math.h>
@@ -12,12 +13,16 @@ struct vector f(double x, double y){
 
 struct color r2color(double r){
     int red, green;
-    if(r / max_norm < 0.5){
-        struct color c = {128,127 + 127 * max_norm ,0};
+    if(r / max_norm < 0.33){
+        struct color c = {125,255 - 339 *(r / max_norm) ,80};
         return c;
     }
-    if(r / max_norm >= 0.5){
-        struct color c = {127 + 127 * max_norm,128 ,0};
+    if(r / max_norm >= 0.33 && r / max_norm < 0.66){
+        struct color c = {125 + 339 *(r / max_norm - 0.33),125 + 339 *(r / max_norm - 0.33) ,80};
+        return c;
+    }
+    if(r / max_norm >= 0.66){
+        struct color c = {255, 255 - 600 *(r / max_norm - 0.66) ,80};
         return c;
     }
 }
@@ -26,7 +31,7 @@ int create_vectors(unsigned int digit){
     int count = 0;
     for(int y = -HEIGHT/2 ;y < HEIGHT/2;y += digit){
         for(int x = -WIDTH/2; x < WIDTH/2;x += digit, count++){
-            if(count >= VECTORNUMBER){return;}
+            if(count >= VECTORNUMBER){return count;}
             struct vector v = f(x, y);
             vectors[count].x =  v.x;
             vectors[count].y =  v.y;
@@ -39,9 +44,9 @@ int create_vectors(unsigned int digit){
     for(int y = -HEIGHT/2 ;y < HEIGHT/2;y += digit){
         for(int x = -WIDTH/2; x < WIDTH/2;x += digit, count++){
             printf("ha\n");
-            if(count >= VECTORNUMBER){return;}
+            if(count >= VECTORNUMBER){return count;}
 	    struct coord xy = {x, y};
-            printf("%g %g\n", vectors[count].x, vectors[count].y);
+            printf("%g %g rgb\n", vectors[count].x, vectors[count].y);
             img_vector(vectors[count], xy);
 	}
     }

@@ -8,13 +8,8 @@ static unsigned char buf[HEIGHT][WIDTH][3];
 static int filecnt = 0;
 static char fname[100];
 
-double max (double a, double b) {
-	return (a>b) ? a : b;
-}
-
-double min (double a, double b) {
-	return (a<b) ? a : b;
-}
+#define max(a,b) (((a) > (b)) ? (a) : (b))
+#define min(a,b) (((a) < (b)) ? (a) : (b))
 
 void img_clear(void) {
   int i, j;
@@ -56,16 +51,17 @@ void img_line(struct coord s, struct coord e, struct color c) {
 	struct pixel spoint = {(int)round(s.x), (int)round(s.y)};
 	struct pixel epoint = {(int)round(e.x), (int)round(e.y)};
 	while(1) {
+		//printf("spoint %d %d epoint %d %d\n", spoint.x, spoint.y, epoint.x, epoint.y);
 		img_putpixel(c, spoint); 
 		if(spoint.x == epoint.x && spoint.y == epoint.y) break;
 		double e2 = 2*err;
 		if (e2 >= dy) {
 			err += dy;
-			spoint.x += sx;
+			if(spoint.x != epoint.x) spoint.x += sx;
 		}
 		if (e2 <= dx) {
 			err += dx;
-			spoint.y += sy;
+			if(spoint.y != epoint.y) spoint.y += sy;
 		}
 	}
 }
@@ -100,8 +96,8 @@ void img_triangle(struct coord v1, struct coord v2, struct coord v3, struct colo
 void img_vector(struct vector v, struct coord xy){
    double r = sqrt(pow(v.x, 2) + pow(v.y, 2)); 
    if (r < 0.001) {return;}
-   printf("break");
    struct color c = r2color(r); //struct color r2color(double r) 
+   printf("break %d %d %d %g\n", c.r, c.g, c.b, r);
    struct coord e  = {xy.x + VECTORSIZE * v.x / r, xy.y + VECTORSIZE * v.y /r};
    img_line(xy, e, c);
    struct coord b = { e.x - v.x*VECTORSIZE/(10*r), e.y - v.y*VECTORSIZE/(10*r) };
@@ -113,7 +109,7 @@ void img_vector(struct vector v, struct coord xy){
 void img_plane() {
 	struct coord x1 = {-WIDTH/2,0}, x2 = {WIDTH/2,0};
 	struct coord y1 = {0,-HEIGHT/2}, y2 = {0,HEIGHT/2};
-	struct color c = {0,0,255};	
+	struct color c = {255,255,255};	
 	int i;
 	struct color c2 = {0,102,102};	
 	img_line(x1,x2,c);
@@ -131,14 +127,14 @@ void img_plane() {
 	
 }
 
-void img_circle(struct color c, double x, double y, double r) {
-  int imin = (int)(x - r - 1), imax = (int)(x + r + 1);
-  int jmin = (int)(y - r - 1), jmax = (int)(y + r + 1);
+void img_circle(struct coord xy, double r, struct color c) {
+  int imin = (int)(xy.x - r - 1), imax = (int)(xy.x + r + 1);
+  int jmin = (int)(xy.y - r - 1), jmax = (int)(xy.y + r + 1);
   int i, j;
   for(j = jmin; j <= jmax; ++j) {
     for(i = imin; i <= imax; ++i) {
 	  struct pixel a = {i, j};
-      if((x-i)*(x-i) + (y-j)*(y-j) <= r*r) { img_putpixel(c,a); }
+      if((xy.x-i)*(xy.x-i) + (xy.y-j)*(xy.y-j) <= r*r) { img_putpixel(c,a); }
     }
   }
 }

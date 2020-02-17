@@ -1,7 +1,6 @@
 #ifndef VECTOR
 #define VECTOR
 
-#include "img.h"
 #define VECTORSIZE 50
 #define VECTORNUMBER HEIGHT * WIDTH
 

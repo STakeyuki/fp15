@@ -11,10 +11,9 @@ int main(void) {
   struct coord a1 = { 0.0, 0.0 };
   struct coord b1 = { 350.0, 400.0 };
   img_clear();
-  img_plane();
+  //img_plane();
   struct vector v = { a.x - b.x, a.y - b.y };
   struct vector v1 = { a1.x - b1.x, a1.y - b1.y };
-  img_vector(v, c);
   img_vector(v1, c);
   img_write();
   return 0;
