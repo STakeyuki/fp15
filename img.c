@@ -74,25 +74,25 @@ void img_triangle(struct coord v1, struct coord v2, struct coord v3, struct colo
 	struct vector vs1 = {v2.x - v1.x, v2.y - v1.y};
 	struct vector vs2 = {v3.x - v1.x, v3.y - v1.y};
 	int x,y;
-	int maxX = max(v1.x, max(v2.x, v3.x));
-	int minX = min(v1.x, min(v2.x, v3.x));
-	int maxY = max(v1.y, max(v2.y, v3.y));
-	int minY = min(v1.y, min(v2.y, v3.y));
-	struct pixel p = {minX, minY};
-	for (; p.x <= maxX; p.x++)
+	double maxX = max(v1.x, max(v2.x, v3.x));
+	double minX = min(v1.x, min(v2.x, v3.x));
+	double maxY = max(v1.y, max(v2.y, v3.y));
+	double minY = min(v1.y, min(v2.y, v3.y));
+	struct pixel p = {(int)round(minX), (int)round(minY), c};
+	for (p.x = (int)round(minX) ; p.x <= (int)round(maxX); p.x++)
 	{
-	  for (; p.y <= maxY; p.y++)
+	  for (p.y = (int)round(minY); p.y <= (int)round(maxY); p.y++)
 	  {
-	   
 	    struct vector q = {p.x - v1.x, p.y - v1.y};
 
 	    double s = (double)cross(q, vs2) / cross(vs1, vs2);
 	    double t = (double)cross(vs1, q) / cross(vs1, vs2);
 
-	    if ( (s >= 0) && (t >= 0) && (s + t <= 1))
+	  if ( (s >= 0) && (t >= 0) && (s + t <= 1))
 	    { /* inside triangle */
-	      img_putpixel(c, p);
+	      img_putpixel(c,p);
 	    }
+
 	  }
 	}
 }
