@@ -2,7 +2,7 @@
 #define VECTOR
 
 #include "img.h"
-#define VECTORSIZE 200
+#define VECTORSIZE 50
 #define VECTORNUMBER 200
 
 double max_norm;
