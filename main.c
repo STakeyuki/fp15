@@ -8,8 +8,8 @@ int main(void) {
   struct coord a = { 1, 0.0 };
   struct coord b = { 0.0, 1 };
   struct coord c = { 0.0, 0.0 };
-  struct coord a1 = { 0.0, 300.0 };
-  struct coord b1 = { 300.0, 200.0 };
+  struct coord a1 = { 0.0, 0.0 };
+  struct coord b1 = { 350.0, 400.0 };
   img_clear();
   img_plane();
   struct vector v = { a.x - b.x, a.y - b.y };

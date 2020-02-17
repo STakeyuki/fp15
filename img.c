@@ -35,7 +35,7 @@ void img_write(void) {
 }
 
 void img_putpixel(struct color c, struct pixel a) {
-  if(-WIDTH/2 > a.x  || a.x >= WIDTH/2 || -HEIGHT/2 >= a.y  || a.y >= HEIGHT/2) { return; }
+  if(-WIDTH/2 > a.x  || a.x >= WIDTH/2 || -HEIGHT/2 > a.y  || a.y >= HEIGHT/2) { return; }
   buf[HEIGHT/2-a.y-1][a.x+WIDTH/2][0] = c.r;
   buf[HEIGHT/2-a.y-1][a.x+WIDTH/2][1] = c.g;
   buf[HEIGHT/2-a.y-1][a.x+WIDTH/2][2] = c.b;
@@ -100,6 +100,7 @@ void img_triangle(struct coord v1, struct coord v2, struct coord v3, struct colo
 void img_vector(struct vector v, struct coord xy){
    double r = sqrt(pow(v.x, 2) + pow(v.y, 2)); 
    if (r < 0.001) {return;}
+   printf("break");
    struct color c = r2color(r); //struct color r2color(double r) 
    struct coord e  = {xy.x + VECTORSIZE * v.x / r, xy.y + VECTORSIZE * v.y /r};
    img_line(xy, e, c);

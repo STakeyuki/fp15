@@ -5,9 +5,9 @@
 extern struct vector vectors[VECTORNUMBER];
 
 int main(){
-    create_vectors(50);
-    for(int i = 0;i < 100;i++){
-       printf("%d %d\n", vectors[i].x ,vectors[i].y);
-    }
+    img_clear();
+    img_plane();
+    int n = create_vectors(50);
+    img_write();
     return 0;
 }
