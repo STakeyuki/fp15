@@ -3,14 +3,17 @@
 #include "img.h"
 #include <math.h>
 
+
+
+
 double max_norm;
 struct vector vectors[VECTORNUMBER] = {{0,0}};
 
-struct vector f(double x, double y){
-    struct vector r = {sin(x)+sin(y), sin(x)-sin(y)};
-    return r;
-}
-
+struct vector f(double x, double y, int t){
+  //struct vector r = {sin(t*x/1000)+sin(t*y/1000), sin(t*x/1000)-sin(t*y/1000)};
+  struct vector r = {(sin(x/1000)+sin(y/1000)) * cos(0.7*t) -(sin(x/1000)-sin(y/1000)) * sin(0.7*t), (sin(x/1000)+sin(y/1000)) * sin(0.7*t) + (sin(x/1000)-sin(y/1000))*cos(0.7*t)}; 
+return r;
+} 
 struct color r2color(double r){
     int red, green;
     if(r / max_norm < 0.33){
@@ -27,26 +30,23 @@ struct color r2color(double r){
     }
 }
 
-int create_vectors(unsigned int digit){
+int create_vectors(unsigned int digit, int t){
     int count = 0;
     for(int y = -HEIGHT/2 ;y < HEIGHT/2;y += digit){
         for(int x = -WIDTH/2; x < WIDTH/2;x += digit, count++){
             if(count >= VECTORNUMBER){return count;}
-            struct vector v = f(x, y);
+            struct vector v = f(x, y,t);
             vectors[count].x =  v.x;
             vectors[count].y =  v.y;
             double r = sqrt(pow(vectors[count].x, 2) + pow(vectors[count].y, 2)); 
             if(max_norm < r) max_norm = r;
         }
     }
-    printf("hello %g\n", max_norm);
     count = 0;
     for(int y = -HEIGHT/2 ;y < HEIGHT/2;y += digit){
         for(int x = -WIDTH/2; x < WIDTH/2;x += digit, count++){
-            printf("ha\n");
             if(count >= VECTORNUMBER){return count;}
 	    struct coord xy = {x, y};
-            printf("%g %g rgb\n", vectors[count].x, vectors[count].y);
             img_vector(vectors[count], xy);
 	}
     }

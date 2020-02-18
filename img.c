@@ -10,7 +10,7 @@ static char fname[100];
 #define PARTICLENUMBER HEIGHT * WIDTH
 struct color particlecolor = {130,120,200};
 static int pnum = 0;
-static double particleradius = 3; 
+static double particleradius = 4; 
 struct coord particles[PARTICLENUMBER] = {{0,0}};
 
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -102,12 +102,12 @@ void img_vector(struct vector v, struct coord xy){
    double r = sqrt(pow(v.x, 2) + pow(v.y, 2)); 
    if (r < 0.001) {return;}
    struct color c = r2color(r); //struct color r2color(double r) 
-   printf("break %d %d %d %g\n", c.r, c.g, c.b, r);
+   //printf("break %d %d %d %g\n", c.r, c.g, c.b, r);
    struct coord e  = {xy.x + VECTORSIZE * v.x / r, xy.y + VECTORSIZE * v.y /r};
    img_line(xy, e, c);
-   struct coord b = { e.x - v.x*VECTORSIZE/(10*r), e.y - v.y*VECTORSIZE/(10*r) };
-   struct coord a = { b.x - v.y*VECTORSIZE/(10*r), b.y + v.x*VECTORSIZE/(10*r) };
-   struct coord d = { b.x + v.y*VECTORSIZE/(10*r), b.y - v.x*VECTORSIZE/(10*r) };
+   struct coord b = { e.x - v.x*VECTORSIZE/(7*r), e.y - v.y*VECTORSIZE/(7*r) };
+   struct coord a = { b.x - v.y*VECTORSIZE/(7*r), b.y + v.x*VECTORSIZE/(7*r) };
+   struct coord d = { b.x + v.y*VECTORSIZE/(7*r), b.y - v.x*VECTORSIZE/(7*r) };
    img_triangle(e, a, d, c);
 }
 
@@ -145,12 +145,15 @@ void img_circle(struct coord xy, double r, struct color c) {
 }
 
 void img_initparticles(unsigned int digit) {
+	srand(time(0)); 
 	pnum = 0;
 	for(int y = -HEIGHT/2 ;y < HEIGHT/2;y += digit){
         	for(int x = -WIDTH/2; x < WIDTH/2;x += digit){
-			particles[pnum].x = x;
-			particles[pnum].y = y;
-			pnum++;
+			//if(rand()%100 > 50 && (x*x + y*y <= HEIGHT*HEIGHT/16)) {
+				particles[pnum].x = x;
+				particles[pnum].y = y;
+				pnum++;
+			//}
 		}
 	}
 }
@@ -159,7 +162,9 @@ void img_moveparticles() {
 	int i;
 	for(i = 0; i < pnum; i++) {
 		img_circle(particles[i], particleradius, particlecolor);
-		particles[i].x += f(particles[i].x, particles[i].y).x/30;
-		particles[i].y += f(particles[i].x, particles[i].y).y/30;
+		//printf("%g %g %g %g\n", particles[i].x, particles[i].y,  f(particles[i].x, particles[i].y).x, f(particles[i].x, particles[i].y).y);
+		struct vector v = f(particles[i].x, particles[i].y, 0);
+		particles[i].x += v.x*3;
+		particles[i].y += v.y*3;
 	}
 }

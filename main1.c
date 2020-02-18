@@ -4,13 +4,14 @@
 
 
 int main(){
-    img_initparticles(50);
+    //img_initparticles(5);
     int i;
-    for(i=0; i<10; i++) {
+    for(i=0; i<120; i++) {
+	printf("%d  : ",i);
         img_clear();
         img_plane();
-        int n = create_vectors(50);
-        img_moveparticles();
+        int n = create_vectors(25,i);
+        //img_moveparticles();
         img_write();
     }
     
