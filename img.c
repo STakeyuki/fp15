@@ -7,6 +7,11 @@
 static unsigned char buf[HEIGHT][WIDTH][3];
 static int filecnt = 0;
 static char fname[100];
+#define PARTICLENUMBER HEIGHT * WIDTH
+struct color particlecolor = {130,120,200};
+static int pnum = 0;
+static double particleradius = 3; 
+struct coord particles[PARTICLENUMBER] = {{0,0}};
 
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #define min(a,b) (((a) < (b)) ? (a) : (b))
@@ -43,13 +48,13 @@ double absd(double n) {
 }
 
 void img_line(struct coord s, struct coord e, struct color c) {
-	double dx = abs(e.x - s.x);
-	int sx = (s.x < e.x) ? 1 : -1;
-	double dy = -absd(e.y - s.y);
-	int sy = (s.y < e.y) ? 1 : -1;
-	double err = dx + dy;
 	struct pixel spoint = {(int)round(s.x), (int)round(s.y)};
 	struct pixel epoint = {(int)round(e.x), (int)round(e.y)};
+	double dx = abs(epoint.x - spoint.x);
+	int sx = (spoint.x < epoint.x) ? 1 : -1;
+	double dy = -absd(epoint.y - spoint.y);
+	int sy = (spoint.y < epoint.y) ? 1 : -1;
+	double err = dx + dy;
 	while(1) {
 		//printf("spoint %d %d epoint %d %d\n", spoint.x, spoint.y, epoint.x, epoint.y);
 		img_putpixel(c, spoint); 
@@ -139,4 +144,22 @@ void img_circle(struct coord xy, double r, struct color c) {
   }
 }
 
+void img_initparticles(unsigned int digit) {
+	pnum = 0;
+	for(int y = -HEIGHT/2 ;y < HEIGHT/2;y += digit){
+        	for(int x = -WIDTH/2; x < WIDTH/2;x += digit){
+			particles[pnum].x = x;
+			particles[pnum].y = y;
+			pnum++;
+		}
+	}
+}
 
+void img_moveparticles() {
+	int i;
+	for(i = 0; i < pnum; i++) {
+		img_circle(particles[i], particleradius, particlecolor);
+		particles[i].x += f(particles[i].x, particles[i].y).x/30;
+		particles[i].y += f(particles[i].x, particles[i].y).y/30;
+	}
+}

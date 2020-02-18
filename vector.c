@@ -3,11 +3,11 @@
 #include "img.h"
 #include <math.h>
 
-double max_norm = 721.11;
+double max_norm;
 struct vector vectors[VECTORNUMBER] = {{0,0}};
 
 struct vector f(double x, double y){
-    struct vector r = {x, y};
+    struct vector r = {sin(x)+sin(y), sin(x)-sin(y)};
     return r;
 }
 
