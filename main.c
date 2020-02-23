@@ -1,20 +1,20 @@
-// animate1 --- create animation using img lib.
+#include <stdio.h>
 #include "img.h"
 #include "vector.h"
-#include <stdio.h>
+#define N_FRAMES 180
+#define VECTORS_INTERVAL 25
+#define PARTICLES_INTERVAL 10
 
-int main(void) {
-  struct color c1 = { 30, 255, 0 };
-  struct coord a = { 1, 0.0 };
-  struct coord b = { 0.0, 1 };
-  struct coord c = { 0.0, 0.0 };
-  struct coord a1 = { 0.0, 0.0 };
-  struct coord b1 = { 350.0, 400.0 };
-  img_clear();
-  //img_plane();
-  struct vector v = { a.x - b.x, a.y - b.y };
-  struct vector v1 = { a1.x - b1.x, a1.y - b1.y };
-  img_vector(v1, c);
-  img_write();
-  return 0;
+int main(){
+    img_initparticles(10);
+    int i;
+    for(i=0; i<N_FRAMES; i++) {
+        img_clear();
+        img_plane();
+        create_vectors(25);
+        img_moveparticles();
+        img_write();
+    }
+    
+    return 0;
 }

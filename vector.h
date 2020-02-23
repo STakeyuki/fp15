@@ -6,11 +6,9 @@
 
 struct vector{double x, y;};
 
-
-struct vector f(double x, double y, int t);
-
+struct vector f(double x, double y);
 struct color r2color(double r);
-int create_vectors(unsigned int digit, int t);
+void create_vectors(unsigned int interval);
 double cross(struct vector v1, struct vector v2);
 
 #endif
